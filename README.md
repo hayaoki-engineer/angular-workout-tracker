@@ -1,27 +1,51 @@
-# AngularWorkoutTracker
+# ワークアウト記録アプリ
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.10.
+筋トレの進捗を簡単に記録・管理できるシンプルなWebアプリケーションです。
 
-## Development server
+## 機能
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- 🏋️‍♂️ ワークアウトの記録
+  - 種目名の登録
+  - 重量と回数の記録
+  - 複数セットの管理
 
-## Code scaffolding
+- 📊 記録の管理
+  - 登録したワークアウトの一覧表示
+  - 日時、種目名、セット詳細の表示
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## 技術スタック
 
-## Build
+- Angular 18
+- TailwindCSS
+- TypeScript
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 開発環境のセットアップ
 
-## Running unit tests
+```bash
+# 依存関係のインストール
+npm install
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# 開発サーバーの起動
+npm start
+```
 
-## Running end-to-end tests
+## プロジェクト構造
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```
+src/
+├── app/
+│   ├── components/
+│   │   ├── workout-form/    # ワークアウト登録フォーム
+│   │   └── workout-list/    # ワークアウト一覧表示
+│   ├── models/
+│   │   └── workout.model.ts # データモデル
+│   └── app.component.ts     # ルートコンポーネント
+```
 
-## Further help
+## 使い方
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. 「新規ワークアウト登録」フォームで種目名を入力
+2. 重量(kg)と回数を入力
+3. 必要に応じて「セット追加」ボタンでセットを追加
+4. 「登録」ボタンで記録を保存
+5. 登録したワークアウトは下部の一覧に表示されます
