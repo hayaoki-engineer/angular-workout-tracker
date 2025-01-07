@@ -1,1 +1,54 @@
-<p>workout-form works!</p>
+<div class="bg-white rounded-2xl shadow-xl p-8 backdrop-blur-lg bg-opacity-90">
+  <h2 class="text-2xl font-bold mb-6 text-gray-800">新規ワークアウト登録</h2>
+
+  <div class="mb-8 p-6 bg-gray-50 rounded-xl relative">
+    <button
+      class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors"
+    >
+      ✖️
+    </button>
+
+    <div class="mb-6">
+      <label class="block text-gray-700 text-sm font-medium mb-2">
+        種目名
+      </label>
+      <input
+        type="text"
+        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-200"
+        placeholder="ベンチプレス"
+      />
+    </div>
+
+    <div class="mb-4">
+      <h3 class="text-lg font-semibold mb-4 text-gray-800">セット</h3>
+      <div class="space-y-4">
+        <div class="flex gap-4 p-4 bg-white rounded-lg">
+          <div class="flex-1">
+            <label class="block text-gray-700 text-sm font-medium mb-2">
+              重量（kg）
+            </label>
+            <input
+              type="number"
+              class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-200"
+            />
+          </div>
+          <div class="flex-1">
+            <label class="block text-gray-700 text-sm font-medium mb-2">
+              回数
+            </label>
+            <input
+              type="number"
+              class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-200"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      class="px-6 py-2.5 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-full transition-all duration-200 shadow hover:shadow-lg transform hover:-translate-y-0.5"
+    >
+      セット追加
+    </button>
+  </div>
+</div>
