@@ -1,20 +1,48 @@
 # ワークアウト記録アプリ
 
-筋トレの進捗を簡単に記録・管理できるシンプルなWebアプリケーションです。
+シンプルで使いやすいワークアウト記録アプリケーションです。筋トレの記録を簡単に管理できます。
 
-## 機能
+## 主な機能
 
-- 🏋️‍♂️ ワークアウトの記録
-  - 種目名の登録
-  - 重量と回数の記録
-  - 複数セットの管理
+### 1. ワークアウトの記録
+- 複数の種目（エクササイズ）を一度に登録可能
+- 各種目に対して複数のセットを記録
+- セットごとの重量(kg)と回数を記録
+- 直感的なUIで簡単に入力可能
 
-- 📊 記録の管理
-  - 登録したワークアウトの一覧表示
-  - 日時、種目名、セット詳細の表示
+### 2. 履歴の管理
+- 記録したワークアウトを時系列で表示
+- 日付、種目名、セット数、重量、回数などの詳細を確認可能
+- 見やすい履歴一覧でトレーニングの進捗を確認
+
+## プロジェクト構造
+
+```
+src/
+├── app/
+│   ├── components/
+│   │   ├── workout-form/
+│   │   │   ├── workout-form.component.ts
+│   │   │   ├── workout-form.component.html
+│   │   │   └── workout-form.component.css
+│   │   └── workout-list/
+│   │       ├── workout-list.component.ts
+│   │       ├── workout-list.component.html
+│   │       └── workout-list.component.css
+│   ├── models/
+│   │   └── workout.model.ts
+│   ├── services/
+│   │   └── workout.service.ts
+│   ├── app.component.ts
+│   ├── app.component.html
+│   ├── app.component.css
+│   └── app.routes.ts
+├── global_styles.css
+├── index.html
+└── main.ts
+```
 
 ## 技術スタック
-
 - Angular 18
 - TailwindCSS
 - TypeScript
@@ -29,23 +57,4 @@ npm install
 npm start
 ```
 
-## プロジェクト構造
-
-```
-src/
-├── app/
-│   ├── components/
-│   │   ├── workout-form/    # ワークアウト登録フォーム
-│   │   └── workout-list/    # ワークアウト一覧表示
-│   ├── models/
-│   │   └── workout.model.ts # データモデル
-│   └── app.component.ts     # ルートコンポーネント
-```
-
-## 使い方
-
-1. 「新規ワークアウト登録」フォームで種目名を入力
-2. 重量(kg)と回数を入力
-3. 必要に応じて「セット追加」ボタンでセットを追加
-4. 「登録」ボタンで記録を保存
-5. 登録したワークアウトは下部の一覧に表示されます
+開発サーバーは `http://localhost:4200/` で起動します。
