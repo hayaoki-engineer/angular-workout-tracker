@@ -1,65 +1,71 @@
-<div class="bg-white rounded-2xl shadow-xl p-8 backdrop-blur-lg bg-opacity-90">
-  <h2 class="text-2xl font-bold mb-6 text-gray-800">新規ワークアウト登録</h2>
+<div class="mx-auto flex flex-col gap-4 md:max-w-[800px]">
+  <div class="flex flex-col gap-2">
+    <h1 class="text-3xl font-bold tracking-tight">新規ワークアウト登録</h1>
+    <p class="text-muted-foreground">トレーニングの記録を入力してください。</p>
+  </div>
 
-  <div class="mb-8 p-6 bg-gray-50 rounded-xl relative">
-    <button
-      class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors"
-    >
-      ✖️
-    </button>
-
-    <div class="mb-6">
-      <label class="block text-gray-700 text-sm font-medium mb-2">
-        種目名
-      </label>
-      <input
-        type="text"
-        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-200"
-        placeholder="ベンチプレス"
-      />
-    </div>
-
-    <div class="mb-4">
-      <h3 class="text-lg font-semibold mb-4 text-gray-800">セット</h3>
+    <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-6 relative">
+      
+        <button 
+          class="absolute top-4 right-4 h-8 w-8 rounded-md hover:bg-accent hover:text-accent-foreground flex items-center justify-center"
+        >
+          ✕
+        </button>
+      
       <div class="space-y-4">
-        <div class="flex gap-4 p-4 bg-white rounded-lg">
-          <div class="flex-1">
-            <label class="block text-gray-700 text-sm font-medium mb-2">
-              重量（kg）
-            </label>
-            <input
-              type="number"
-              class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-200"
-            />
-          </div>
-          <div class="flex-1">
-            <label class="block text-gray-700 text-sm font-medium mb-2">
-              回数
-            </label>
-            <input
-              type="number"
-              class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-200"
-            />
+        <div class="space-y-2">
+          <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            種目名
+          </label>
+          <input
+            type="text"
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            placeholder="ベンチプレス"
+          />
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="font-semibold">セット</h3>
+          <div class="grid gap-4">
+              <div class="rounded-lg border bg-card text-card-foreground p-4 grid grid-cols-2 gap-4">
+                <div class="space-y-2">
+                  <label class="text-sm font-medium leading-none">
+                    重量 (kg)
+                  </label>
+                  <input
+                    type="number"
+                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  />
+                </div>
+                <div class="space-y-2">
+                  <label class="text-sm font-medium leading-none">
+                    回数
+                  </label>
+                  <input
+                    type="number"
+                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  />
+                </div>
+              </div>
           </div>
         </div>
+
+        <button
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+        >
+          セット追加
+        </button>
       </div>
     </div>
 
+  <div class="flex gap-4">
     <button
-      class="px-6 py-2.5 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-full transition-all duration-200 shadow hover:shadow-lg transform hover:-translate-y-0.5"
-    >
-      セット追加
-    </button>
-  </div>
-
-  <div class="flex gap-4 mt-8">
-    <button
-      class="px-6 py-2.5 bg-purple-500 hover:bg-purple-600 text-white font-medium rounded-full transition-all duration-200 shadow hover:shadow-lg transform hover:-translate-y-0.5"
+      class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
     >
       種目追加
     </button>
     <button
-      class="px-6 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white font-medium rounded-full transition-all duration-200 shadow hover:shadow-lg transform hover:-translate-y-0.5"
+      class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
     >
       登録
     </button>
