@@ -1,38 +1,68 @@
-<div class="space-y-8">
-  <h2 class="text-2xl font-bold mb-6 text-gray-800">ワークアウト履歴</h2>
-  <div
-    class="bg-white rounded-2xl shadow-xl p-8 text-center backdrop-blur-lg bg-opacity-90"
-  >
-    <p class="text-gray-500 text-lg">まだ記録がありません</p>
+<div class="mx-auto flex flex-col gap-4 md:max-w-[1400px]">
+  <div class="flex flex-col gap-2">
+    <h1 class="text-3xl font-bold tracking-tight">ワークアウトカレンダー</h1>
+    <p class="text-muted-foreground">
+      カレンダーでトレーニング記録を確認できます。
+    </p>
   </div>
 
-  <div class="space-y-6">
-    <div
-      lass="bg-white rounded-2xl shadow-xl p-8 backdrop-blur-lg bg-opacity-90 transform transition-all duration-200 hover:shadow-2xl hover:-translate-y-1"
-    >
-      <div class="flex justify-between items-center mb-6">
-        <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full"
-          >2025-01-09</span
+  <div class="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-6">
+    <!-- カレンダー部分 -->
+    <div class="space-y-4">
+      <!-- カレンダーヘッダー -->
+      <div
+        class="flex items-center justify-between bg-card rounded-lg border p-4"
+      >
+        <button
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 hover:bg-accent"
         >
+          前月
+        </button>
+        <h2 class="text-xl font-semibold">
+          {{ currentDate | date : "Y年M月" }}
+        </h2>
+        <button
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 hover:bg-accent"
+        >
+          次月
+        </button>
       </div>
 
-      <div class="mb-6 last:mb-0">
-        <h3 class="text-xl font-bold text-gray-800 mb-4">ベンチプレス</h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-            <p class="font-medium text-gray-700 mb-2">セット</p>
-
-            <div class="flex justify-between items-center">
-              <p class="text-gray-600">
-                <span class="font-semibold text-lg text-indigo-600">50</span>
-                <span class="text-sm ml-1">kg</span>
-              </p>
-              <p class="text-gray-600">
-                <span class="font-semibold text-lg text-purple-600">10</span>
-                <span class="text-sm ml-1">回</span>
-              </p>
-            </div>
+      <!-- カレンダーグリッド -->
+      <div class="bg-card rounded-lg border overflow-hidden">
+        <!-- 曜日ヘッダー -->
+        <div class="grid grid-cols-7 gap-px bg-muted">
+          @for (day of ['日', '月', '火', '水', '木', '金', '土']; track day) {
+          <div class="bg-card p-3 text-center text-sm font-medium">
+            {{ day }}
           </div>
+          }
+        </div>
+
+        <!-- カレンダー日付 -->
+        <div class="grid grid-cols-7 gap-px bg-muted">
+          @for (date of calendarDays; track date) {
+            <div
+              class="min-h-[80px] p-2 transition-colors"
+            >
+              <!-- 日付 -->
+              <div class="flex items-start justify-between">
+                <div class="flex items-center gap-1">
+                  @if (isToday(date)) {
+                  <div
+                    class="h-7 w-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center"
+                  >
+                    {{ date | date : "d" }}
+                  </div>
+                  } @else {
+                  <div class="h-7 w-7 flex items-center justify-center">
+                    {{ date | date : "d" }}
+                  </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
         </div>
       </div>
     </div>
