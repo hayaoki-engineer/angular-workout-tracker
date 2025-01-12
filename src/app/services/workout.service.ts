@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable } from '@angular/core';
 import { signal } from '@angular/core';
 import { Workout } from '../model/workout.model';
 
@@ -39,6 +39,32 @@ export class WorkoutService {
   private saveWorkouts(workouts: Workout[]) {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(workouts));
   }
+
+  /**
+   * 日付をYYYY-MM-DD形式の文字列に変換する
+   * @param date 日付
+   * @returns 日付の文字列
+   */
+  getDateString(date: Date): string {
+    return date.toISOString().split('T')[0];
+  }
+
+  /**
+   * 日付ごとのワークアウトデータを取得する
+   * @returns 日付ごとのワークアウトデータ
+   */
+  workoutByDate = computed(() => {
+    const workoutMap = new Map<string, Workout[]>();
+
+    this.workouts().forEach(workout => {
+      const dateStr = this.getDateString(workout.date);
+      if (!workoutMap.has(dateStr)) {
+        workoutMap.set(dateStr, []);
+      }
+      workoutMap.get(dateStr)!.push(workout);
+    });
+    return workoutMap;
+  });
 
   /**
    * 全てのワークアウトデータを取得する
