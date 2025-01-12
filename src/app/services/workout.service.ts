@@ -52,7 +52,6 @@ export class WorkoutService {
    * 新しいワークアウトデータを追加
    * @param workout 追加するワークアウトデータ
    */
-
   addWorkout(workout: Workout) {
     this.workouts.update((currentWorkouts) => {
       const newWorkouts = [workout, ...currentWorkouts];
