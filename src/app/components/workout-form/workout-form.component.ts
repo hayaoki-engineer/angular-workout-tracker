@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Exercise } from '../../model/workout.model';
+import { Exercise, Workout } from '../../model/workout.model';
 import { WorkoutService } from '../../services/workout.service';
 import { Router } from '@angular/router';
 
@@ -32,5 +32,30 @@ export class WorkoutFormComponent {
       this.exercises.splice(index, 1);
     }
   }
+
+  // ワークアウトを追加
+  onSubmit() {
+    if (this.exercises.some(e => e.name && e.sets.length > 0)) {
+      // 今日の日付を取得
+      const today = new Date();
+      // 今日の日付を0時0分0秒に設定
+      today.setHours(0, 0, 0, 0);
+
+      // ワークアウトを作成
+      const workout: Workout = {
+        id: Date.now().toString(),
+        exercises: [...this.exercises],
+        date: today
+      };
+
+      // ワークアウトを追加
+      this.workoutService.addWorkout(workout);
+
+      // ワークアウトリストに移動
+      this.router.navigate(['/list']);
+    }
+  }
+
+
 
 }
