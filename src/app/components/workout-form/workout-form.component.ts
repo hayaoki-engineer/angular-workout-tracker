@@ -26,4 +26,11 @@ export class WorkoutFormComponent {
     this.exercises[exerciseIndex].sets.push({ weight: 0, reps: 0 });
   }
 
+  // 種目を削除 
+  removeExercise(index: number) {
+    if (this.exercises.length > 1) {
+      this.exercises.splice(index, 1);
+    }
+  }
+
 }
