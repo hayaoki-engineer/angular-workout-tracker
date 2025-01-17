@@ -65,6 +65,76 @@
           }
         </div>
       </div>
+
+      <!-- 詳細表示 -->
+      <div>
+        @if (selectedDate && getSelectedWorkout()) {
+          <div>
+            <div>
+              <h3>
+                {{ selectedDate | date : "Y年M月d日" }}のワークアウト
+              </h3>
+              <button>
+                削除
+              </button>
+            </div>
+
+            <div>
+              @for (workout of selectedWorkouts()!; track workout.id) {
+                @for (exercise of workout.exercises; track exercise.name) {
+                  <div>
+                    <button>
+                      <div>
+                        <h4>{{ exercise.name }}</h4>
+                        <span>{{ exercise.sets.length }}セット</span>
+                      </div>
+                      <div>
+                        <span>合計： {{ getTotalVolume(exercise) }}kg</span>
+                        <svg
+                        [class.rotate-180]="isExerciseExpanded(workout.id, exercise.name)"
+                        class="h-4 w-4 transition-transform"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                      </div>
+                    </button>
+
+                    @if (isExerciseExpanded(workout.id, exercise.name)) {
+                      <div>
+                        @for (set of exercise.sets; track $index) {
+                          <div>
+                            <div>
+                              <span>セット{{ $index + 1 }}</span>
+                              <div>
+                                <span>{{ set.weight }}</span>
+                                <span>kg</span>
+                              </div>
+                              <div>
+                                <span>{{ set.reps }}</span>
+                                <span>回</span>
+                              </div>
+                            </div>
+                            <div>
+                              {{ set.weight * set.reps }}kg
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              }
+            </div>
+          </div>
+        }
+      </div>
     </div>
   </div>
 </div>
