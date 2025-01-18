@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 // import { Exercise, Workout } from '../../models/workout.model';
 import { WorkoutService } from '../../services/workout.service';
 import { FormsModule } from '@angular/forms';
+import { Workout } from '../../model/workout.model';
 
 @Component({
   selector: 'app-workout-list',
@@ -12,12 +13,19 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./workout-list.component.css'],
 })
 export class WorkoutListComponent {
+  // 現在の日付
   currentDate = new Date();
+  // ワークアウト
+  workouts: Signal<Map<string, Workout[]>>;
+  // 選択された日付
   selectedDate: string | null = null;
+  // カレンダーの日付
   calendarDays: Date[] = [];
+  // 詳細表示のエクササイズ
   expandedExercises = new Set<string>();
 
   constructor(public workoutService: WorkoutService) {
+    this.workouts = this.workoutService.workoutByDate;
     this.currentDate.setHours(0, 0, 0, 0);
     this.updateCalendarDays();
   }
@@ -55,5 +63,25 @@ export class WorkoutListComponent {
       date.getMonth() === today.getMonth() &&
       date.getDate() === today.getDate()
     );
+  }
+
+  // 選択された日付のワークアウトを取得
+  getSelectedWorkout(): Workout[] | undefined {
+    if (!this.selectedDate) return undefined;
+    return this.workouts()?.get(this.selectedDate);
+  }
+
+  selectedWorkouts() {
+    console.log(this.selectedDate);
+  }
+
+  // エクササイズの総重量を計算
+  getTotalVolume() {
+    console.log('test');
+  }
+
+  // エクササイズの詳細表示
+  isExerciseExpanded(workoutId: string, exerciseName: string) {
+    console.log('test');
   }
 }
