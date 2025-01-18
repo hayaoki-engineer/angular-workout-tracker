@@ -1,138 +1,130 @@
-<div class="mx-auto flex flex-col gap-4 md:max-w-[1400px]">
-  <div class="flex flex-col gap-2">
-    <h1 class="text-3xl font-bold tracking-tight">ワークアウトカレンダー</h1>
+<div class="container">
+  <div class="header">
+    <h1>カレンダー</h1>
     <p class="text-muted-foreground">
       カレンダーでトレーニング記録を確認できます。
     </p>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-6">
+  <div class="main-grid">
     <!-- カレンダー部分 -->
-    <div class="space-y-4">
+    <div class="calendar-container">
       <!-- カレンダーヘッダー -->
-      <div
-        class="flex items-center justify-between bg-card rounded-lg border p-4"
-      >
-        <button
-          class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 hover:bg-accent"
-        >
-          前月
-        </button>
-        <h2 class="text-xl font-semibold">
+      <div class="calendar-header">
+        <button class="calendar-nav-button">前月</button>
+        <h2 class="calendar-title">
           {{ currentDate | date : "Y年M月" }}
         </h2>
-        <button
-          class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 hover:bg-accent"
-        >
-          次月
-        </button>
+        <button class="calendar-nav-button">次月</button>
       </div>
 
       <!-- カレンダーグリッド -->
-      <div class="bg-card rounded-lg border overflow-hidden">
+      <div class="calendar-grid">
         <!-- 曜日ヘッダー -->
-        <div class="grid grid-cols-7 gap-px bg-muted">
+        <div class="weekday-header">
           @for (day of ['日', '月', '火', '水', '木', '金', '土']; track day) {
-          <div class="bg-card p-3 text-center text-sm font-medium">
+          <div class="weekday-cell">
             {{ day }}
           </div>
           }
         </div>
 
         <!-- カレンダー日付 -->
-        <div class="grid grid-cols-7 gap-px bg-muted">
+        <div class="date-grid">
           @for (date of calendarDays; track date) {
-            <div
-              class="min-h-[80px] p-2 transition-colors"
-            >
-              <!-- 日付 -->
-              <div class="flex items-start justify-between">
-                <div class="flex items-center gap-1">
-                  @if (isToday(date)) {
-                  <div
-                    class="h-7 w-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center"
-                  >
-                    {{ date | date : "d" }}
-                  </div>
-                  } @else {
-                  <div class="h-7 w-7 flex items-center justify-center">
-                    {{ date | date : "d" }}
-                  </div>
-                  }
+          <div
+            [class.inactive-date]="!isCurrentMonth(date)"
+            [class.active-date]="isCurrentMonth(date)"
+            [class.selected-date]="
+              workoutService.getDateString(date) === selectedDate
+            "
+            class="date-cell"
+            (click)="selectDate(date)"
+          >
+            <!-- 日付 -->
+            <div class="date-content">
+              <div class="date-number">
+                @if (isToday(date)) {
+                <div class="today-marker">
+                  {{ date | date : "d" }}
                 </div>
+                } @else {
+                <div class="date-text">
+                  {{ date | date : "d" }}
+                </div>
+                }
               </div>
             </div>
+          </div>
           }
         </div>
       </div>
 
       <!-- 詳細表示 -->
-      <div>
+      <div class="workout-details">
         @if (selectedDate && getSelectedWorkout()) {
-          <div>
-            <div>
-              <h3>
-                {{ selectedDate | date : "Y年M月d日" }}のワークアウト
-              </h3>
-              <button>
-                削除
+        <div class="workout-info">
+          <div class="workout-header">
+            <h3>{{ selectedDate | date : "Y年M月d日" }}のワークアウト</h3>
+            <button class="delete-button">削除</button>
+          </div>
+
+          <div class="exercise-list">
+            @for (workout of getSelectedWorkout()!; track workout.id) { @for
+            (exercise of workout.exercises; track exercise.name) {
+            <div class="exercise-item">
+              <button class="exercise-button">
+                <div class="exercise-header">
+                  <h4>{{ exercise.name }}</h4>
+                  <span>{{ exercise.sets.length }}セット</span>
+                </div>
+                <div
+                  class="expand-icon"
+                  [class.expanded]="
+                    isExerciseExpanded(workout.id, exercise.name)
+                  "
+                >
+                  <svg
+                    class="chevron-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </div>
               </button>
-            </div>
 
-            <div>
-              @for (workout of selectedWorkouts()!; track workout.id) {
-                @for (exercise of workout.exercises; track exercise.name) {
-                  <div>
-                    <button>
-                      <div>
-                        <h4>{{ exercise.name }}</h4>
-                        <span>{{ exercise.sets.length }}セット</span>
-                      </div>
-                      <div>
-                        <span>合計： {{ getTotalVolume(exercise) }}kg</span>
-                        <svg
-                        [class.rotate-180]="isExerciseExpanded(workout.id, exercise.name)"
-                        class="h-4 w-4 transition-transform"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                      </svg>
-                      </div>
-                    </button>
-
-                    @if (isExerciseExpanded(workout.id, exercise.name)) {
-                      <div>
-                        @for (set of exercise.sets; track $index) {
-                          <div>
-                            <div>
-                              <span>セット{{ $index + 1 }}</span>
-                              <div>
-                                <span>{{ set.weight }}</span>
-                                <span>kg</span>
-                              </div>
-                              <div>
-                                <span>{{ set.reps }}</span>
-                                <span>回</span>
-                              </div>
-                            </div>
-                            <div>
-                              {{ set.weight * set.reps }}kg
-                            </div>
-                          </div>
-                        }
-                      </div>
-                    }
+              @if (isExerciseExpanded(workout.id, exercise.name)) {
+              <div class="sets-container">
+                @for (set of exercise.sets; track $index) {
+                <div class="set-item">
+                  <div class="set-details">
+                    <span class="set-number">セット{{ $index + 1 }}</span>
+                    <div class="weight-info">
+                      <span>{{ set.weight }}</span>
+                      <span>kg</span>
+                    </div>
+                    <div class="reps-info">
+                      <span>{{ set.reps }}</span>
+                      <span>回</span>
+                    </div>
                   </div>
+                  <div class="total-weight">{{ set.weight * set.reps }}kg</div>
+                </div>
                 }
+              </div>
               }
             </div>
+            } }
           </div>
+        </div>
+        } @else {
+        <div class="no-selection">日付を選択してください。</div>
         }
       </div>
     </div>

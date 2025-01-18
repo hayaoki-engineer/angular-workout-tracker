@@ -65,23 +65,23 @@ export class WorkoutListComponent {
     );
   }
 
+  // 選択された日付を更新
+  selectDate(date: Date) {
+    if (this.isToday(date)) {
+      const dateStr = this.workoutService.getDateString(date);
+      this.selectedDate = dateStr;
+    }
+  }
+
   // 選択された日付のワークアウトを取得
   getSelectedWorkout(): Workout[] | undefined {
     if (!this.selectedDate) return undefined;
     return this.workouts()?.get(this.selectedDate);
   }
 
-  selectedWorkouts() {
-    console.log(this.selectedDate);
-  }
-
-  // エクササイズの総重量を計算
-  getTotalVolume() {
-    console.log('test');
-  }
-
   // エクササイズの詳細表示
-  isExerciseExpanded(workoutId: string, exerciseName: string) {
-    console.log('test');
+  isExerciseExpanded(workoutId: string, exerciseName: string): boolean {
+    return this.expandedExercises.has(`${workoutId}-${exerciseName}`);
   }
+
 }
