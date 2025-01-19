@@ -74,7 +74,7 @@ export class WorkoutListComponent {
   }
 
   // 選択された日付のワークアウトを取得
-  getSelectedWorkout(): Workout[] | undefined {
+  getSelectedWorkouts(): Workout[] | undefined {
     if (!this.selectedDate) return undefined;
     return this.workouts()?.get(this.selectedDate);
   }
