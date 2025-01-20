@@ -1,30 +1,18 @@
-import { computed, Injectable } from '@angular/core';
-import { signal } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { Workout } from '../model/workout.model';
 
 @Injectable({
   providedIn: 'root',
 })
-  
 export class WorkoutService {
-  
-  /** LocalStorageのキー */
   private readonly STORAGE_KEY = 'workouts';
-
-  /** ワークアウトデータを保持するシグナル */
   private workouts = signal<Workout[]>(this.loadWorkouts());
 
-  /**
-   * LocalStorageからワークアウトデータを読み込み
-   * @returns ワークアウトデータ
-   */
   private loadWorkouts(): Workout[] {
     const storedWorkouts = localStorage.getItem(this.STORAGE_KEY);
-
     if (storedWorkouts) {
       const workouts = JSON.parse(storedWorkouts);
-      // 日付文字列をDateオブジェクトに変換
-      return workouts.map((workout: Workout) => ({
+      return workouts.map((workout: any) => ({
         ...workout,
         date: new Date(workout.date),
       }));
@@ -32,55 +20,47 @@ export class WorkoutService {
     return [];
   }
 
-  /**
-   * ワークアウトデータをLocalStorageに保存する
-   * @param workouts 保存するワークアウトデータの配列
-   */
   private saveWorkouts(workouts: Workout[]) {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(workouts));
   }
 
-  /**
-   * 日付をYYYY-MM-DD形式の文字列に変換する
-   * @param date 日付
-   * @returns 日付の文字列
-   */
   getDateString(date: Date): string {
-    return date.toISOString().split('T')[0];
+    // タイムゾーンの影響を受けないように日付を処理
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
-  /**
-   * 日付ごとのワークアウトデータを取得する
-   * @returns 日付ごとのワークアウトデータ
-   */
-  workoutByDate = computed(() => {
+  workoutsByDate = computed(() => {
     const workoutMap = new Map<string, Workout[]>();
 
-    this.workouts().forEach(workout => {
+    this.workouts().forEach((workout) => {
       const dateStr = this.getDateString(workout.date);
       if (!workoutMap.has(dateStr)) {
         workoutMap.set(dateStr, []);
       }
       workoutMap.get(dateStr)!.push(workout);
     });
+
+    // デバッグ用：作成されたマップを確認
+    console.log('Workout map:', Object.fromEntries(workoutMap));
     return workoutMap;
   });
 
-  /**
-   * 全てのワークアウトデータを取得する
-   * @returns ワークアウトデータの配列
-   */
-  getWorkouts() {
-    return this.workouts();
+  addWorkout(workout: Workout) {
+    this.workouts.update((current) => {
+      const newWorkouts = [workout, ...current];
+      this.saveWorkouts(newWorkouts);
+      return newWorkouts;
+    });
   }
 
-  /**
-   * 新しいワークアウトデータを追加
-   * @param workout 追加するワークアウトデータ
-   */
-  addWorkout(workout: Workout) {
-    this.workouts.update((currentWorkouts) => {
-      const newWorkouts = [workout, ...currentWorkouts];
+  deleteWorkoutsByDate(date: string) {
+    this.workouts.update((current) => {
+      const newWorkouts = current.filter(
+        (w) => this.getDateString(w.date) !== date
+      );
       this.saveWorkouts(newWorkouts);
       return newWorkouts;
     });

@@ -1,9 +1,8 @@
-import { Component, Signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-// import { Exercise, Workout } from '../../models/workout.model';
+import { Exercise, Workout } from '../../model/workout.model';
 import { WorkoutService } from '../../services/workout.service';
 import { FormsModule } from '@angular/forms';
-import { Workout } from '../../model/workout.model';
 
 @Component({
   selector: 'app-workout-list',
@@ -13,21 +12,17 @@ import { Workout } from '../../model/workout.model';
   styleUrls: ['./workout-list.component.css'],
 })
 export class WorkoutListComponent {
-  // 現在の日付
   currentDate = new Date();
-  // ワークアウト
-  workouts: Signal<Map<string, Workout[]>>;
-  // 選択された日付
   selectedDate: string | null = null;
-  // カレンダーの日付
   calendarDays: Date[] = [];
-  // 詳細表示のエクササイズ
   expandedExercises = new Set<string>();
+  workouts;
 
   constructor(public workoutService: WorkoutService) {
-    this.workouts = this.workoutService.workoutByDate;
+    this.workouts = workoutService.workoutsByDate;
     this.currentDate.setHours(0, 0, 0, 0);
     this.updateCalendarDays();
+    console.log('Initial workouts:', this.workouts());
   }
 
   updateCalendarDays() {
@@ -36,11 +31,9 @@ export class WorkoutListComponent {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
 
-    // 月初めの週の日曜日まで戻る
     const start = new Date(firstDay);
     start.setDate(start.getDate() - start.getDay());
 
-    // 月末の週の土曜日まで進む
     const end = new Date(lastDay);
     end.setDate(end.getDate() + (6 - end.getDay()));
 
@@ -50,6 +43,11 @@ export class WorkoutListComponent {
       this.calendarDays.push(new Date(current));
       current.setDate(current.getDate() + 1);
     }
+  }
+
+  changeMonth(delta: number) {
+    this.currentDate.setMonth(this.currentDate.getMonth() + delta);
+    this.updateCalendarDays();
   }
 
   isCurrentMonth(date: Date): boolean {
@@ -65,23 +63,55 @@ export class WorkoutListComponent {
     );
   }
 
-  // 選択された日付を更新
+  hasWorkout(date: Date): boolean {
+    const dateStr = this.workoutService.getDateString(date);
+    return this.workouts()?.has(dateStr) ?? false;
+  }
+
+  getWorkoutCount(date: Date): number {
+    const dateStr = this.workoutService.getDateString(date);
+    const workouts = this.workouts()?.get(dateStr);
+    if (!workouts) return 0;
+    return workouts.reduce(
+      (total, workout) => total + workout.exercises.length,
+      0
+    );
+  }
+
   selectDate(date: Date) {
-    if (this.isToday(date)) {
+    if (this.isCurrentMonth(date)) {
       const dateStr = this.workoutService.getDateString(date);
       this.selectedDate = dateStr;
+      console.log('Selected date:', dateStr);
+      console.log('Workouts for date:', this.workouts()?.get(dateStr));
     }
   }
 
-  // 選択された日付のワークアウトを取得
   getSelectedWorkouts(): Workout[] | undefined {
     if (!this.selectedDate) return undefined;
-    return this.workouts()?.get(this.selectedDate);
+    const workouts = this.workouts()?.get(this.selectedDate);
+    console.log('Getting workouts for:', this.selectedDate, workouts);
+    return workouts;
   }
 
-  // エクササイズの詳細表示
+  deleteWorkouts(date: string, event: Event) {
+    event.stopPropagation();
+    if (confirm('この日のワークアウトを削除してもよろしいですか？')) {
+      this.workoutService.deleteWorkoutsByDate(date);
+      this.selectedDate = null;
+    }
+  }
+
+  toggleExercise(workoutId: string, exerciseName: string) {
+    const key = `${workoutId}-${exerciseName}`;
+    if (this.expandedExercises.has(key)) {
+      this.expandedExercises.delete(key);
+    } else {
+      this.expandedExercises.add(key);
+    }
+  }
+
   isExerciseExpanded(workoutId: string, exerciseName: string): boolean {
     return this.expandedExercises.has(`${workoutId}-${exerciseName}`);
   }
-
 }
