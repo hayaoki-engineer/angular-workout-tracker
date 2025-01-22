@@ -1,219 +1,56 @@
-/* コンテナのスタイル */
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.flex {
-  display: flex;
-}
-
-.flex-col {
-  flex-direction: column;
-}
-
-.gap-4 {
-  gap: 1rem;
-}
-
-.gap-2 {
-  gap: 0.5rem;
-}
-
-.gap-6 {
-  gap: 1.5rem;
-}
-
-.gap-px {
-  gap: 1px;
-}
-
-/* タイポグラフィ */
-.text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-}
-
-.font-bold {
-  font-weight: 700;
-}
-
-.tracking-tight {
-  letter-spacing: -0.025em;
-}
-
-.text-muted-foreground {
-  color: hsl(var(--muted-foreground));
-}
-
-/* グリッドレイアウト */
-.grid {
-  display: grid;
-}
-
-.grid-cols-1 {
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-}
-
-.grid-cols-7 {
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-}
-
-/* カード要素 */
-.bg-card {
-  background-color: hsl(var(--card));
-}
-
-.rounded-lg {
-  border-radius: 0.5rem;
-}
-
-.border {
-  border: 1px solid hsl(var(--border));
-}
-
-/* ボタン */
-.inline-flex {
-  display: inline-flex;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.justify-between {
-  justify-between: space-between;
-}
-
-.rounded-md {
-  border-radius: 0.375rem;
-}
-
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
-.font-medium {
-  font-weight: 500;
-}
-
-.h-10 {
-  height: 2.5rem;
-}
-
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-.hover\:bg-accent:hover {
-  background-color: hsl(var(--accent));
-}
-
-/* カレンダーセル */
-.min-h-\[80px\] {
-  min-height: 80px;
-}
-
-.p-2 {
-  padding: 0.5rem;
-}
-
-.p-3 {
-  padding: 0.75rem;
-}
-
-.transition-colors {
-  transition-property: color, background-color, border-color;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-/* 今日の日付表示 */
-.h-7 {
-  height: 1.75rem;
-}
-
-.w-7 {
-  width: 1.75rem;
-}
-
-.rounded-full {
-  border-radius: 9999px;
-}
-
-.bg-primary {
-  background-color: hsl(var(--primary));
-}
-
-.text-primary-foreground {
-  color: hsl(var(--primary-foreground));
-}
-
-/* レスポンシブデザイン */
-@media (min-width: 768px) {
-  .md\:max-w-\[1400px\] {
-    max-width: 1400px;
-  }
-
-  .md\:grid-cols-\[3fr_2fr\] {
-    grid-template-columns: 3fr 2fr;
-  }
-}
-
-/* その他のユーティリティ */
-.space-y-4 > * + * {
-  margin-top: 1rem;
-}
-
-.overflow-hidden {
-  overflow: hidden;
-}
-
-.opacity-40 {
-  opacity: 0.4;
-}
-
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.bg-accent {
-  background-color: hsl(var(--accent));
-}
-
-.transition-transform {
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.rotate-180 {
-  transform: rotate(180deg);
+/* 変数の定義を追加 */
+:host {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 240 5.9% 10%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 5.9% 10%;
+  --radius: 0.5rem;
 }
 
 .container {
-  margin: 0 auto;
   max-width: 1400px;
-  padding: 1rem;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
 .header {
-  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.main-grid {
-  display: grid;
-  grid-template-columns: 1fr;
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.subtitle {
+  color: hsl(var(--muted-foreground));
+}
+
+.layout {
+  display: flex;
   gap: 1.5rem;
 }
 
-.calendar-container {
+.calendar-section {
+  width: 66.666667%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -221,212 +58,251 @@
 
 .calendar-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  justify-content: space-between;
   background-color: hsl(var(--card));
-  border-radius: 0.5rem;
+  border-radius: var(--radius);
   border: 1px solid hsl(var(--border));
+  padding: 1rem;
 }
 
-.calendar-nav-button {
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
+.month-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
   font-size: 0.875rem;
+  font-weight: 500;
+  height: 2.5rem;
+  padding: 0 1rem;
 }
 
-.calendar-title {
+.month-button:hover {
+  background-color: hsl(var(--accent));
+}
+
+.month-title {
   font-size: 1.25rem;
   font-weight: 600;
 }
 
-.calendar-grid {
+.calendar {
   background-color: hsl(var(--card));
-  border-radius: 0.5rem;
+  border-radius: var(--radius);
   border: 1px solid hsl(var(--border));
   overflow: hidden;
 }
 
-.weekday-header {
+.calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  background-color: hsl(var(--muted));
   gap: 1px;
+  background-color: hsl(var(--muted));
 }
 
-.weekday-cell {
+.calendar-weekday {
+  background-color: hsl(var(--card));
   padding: 0.75rem;
   text-align: center;
   font-size: 0.875rem;
   font-weight: 500;
-  background-color: hsl(var(--card));
 }
 
-.date-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 1px;
-  background-color: hsl(var(--muted));
-}
-
-.date-cell {
+.calendar-day {
   min-height: 80px;
   padding: 0.5rem;
   background-color: hsl(var(--card));
   transition: background-color 0.2s;
 }
 
-.inactive-date {
+.calendar-day.inactive {
   opacity: 0.4;
 }
 
-.active-date {
+.calendar-day.active {
   cursor: pointer;
 }
 
-.active-date:hover {
+.calendar-day.active:hover {
   background-color: hsl(var(--accent));
 }
 
-.selected-date {
+.calendar-day.selected {
   background-color: hsl(var(--accent));
 }
 
-.today-marker {
-  width: 1.75rem;
-  height: 1.75rem;
+.day-header {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-  border-radius: 9999px;
-}
-
-@media (min-width: 768px) {
-  .main-grid {
-    grid-template-columns: 3fr 2fr;
-  }
-}
-
-.header h1 {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  margin-bottom: 0.5rem;
-}
-
-/* ワークアウト詳細 */
-.workout-details {
-  margin-top: 1rem;
-}
-
-.workout-info {
-  background-color: hsl(var(--card));
-  border-radius: 0.5rem;
-  border: 1px solid hsl(var(--border));
-  padding: 1rem;
-}
-
-.workout-header {
-  display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
 }
 
-.workout-header h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.delete-button {
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  background-color: hsl(var(--destructive));
-  color: hsl(var(--destructive-foreground));
-}
-
-.exercise-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.exercise-item {
-  border-radius: 0.5rem;
-  border: 1px solid hsl(var(--border));
-  overflow: hidden;
-}
-
-.exercise-button {
-  width: 100%;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.exercise-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.exercise-header h4 {
-  font-weight: 600;
-}
-
-.chevron-icon {
-  width: 1rem;
-  height: 1rem;
-  transition: transform 0.2s;
-}
-
-.expand-icon.expanded .chevron-icon {
-  transform: rotate(180deg);
-}
-
-.sets-container {
-  padding: 1rem;
-  background-color: hsl(var(--muted));
-}
-
-.set-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem;
-  background-color: hsl(var(--card));
-  margin-bottom: 0.5rem;
-  border-radius: 0.375rem;
-}
-
-.set-details {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.set-number {
-  font-weight: 500;
-}
-
-.weight-info,
-.reps-info {
+.day-number {
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
 
-.total-weight {
+.day-number-today {
+  height: 1.75rem;
+  width: 1.75rem;
+  border-radius: 9999px;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.day-badge {
+  font-size: 0.75rem;
   font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  background-color: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary));
+}
+
+.details-section {
+  width: 33.333333%;
+}
+
+.details-card {
+  background-color: hsl(var(--card));
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border));
+  padding: 1.5rem;
+  position: sticky;
+  top: 1rem;
+}
+
+.details-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.details-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.delete-button {
+  font-size: 0.875rem;
+  color: hsl(var(--destructive));
+}
+
+.delete-button:hover {
+  color: hsl(var(--destructive) / 0.8);
+}
+
+.details-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: calc(100vh - 12rem);
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.exercise-card {
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+}
+
+.exercise-header {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.2s;
+  border-radius: var(--radius);
+}
+
+.exercise-header:hover {
+  background-color: hsl(var(--accent) / 0.5);
+}
+
+.exercise-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.exercise-name {
+  font-weight: 500;
+}
+
+.exercise-sets-badge {
+  font-size: 0.875rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+
+.exercise-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
   color: hsl(var(--muted-foreground));
 }
 
-.no-selection {
-  text-align: center;
-  padding: 2rem;
+.exercise-details {
+  padding: 0 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.set-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  padding-left: 1rem;
+  border-left: 2px solid hsl(var(--muted));
+}
+
+.set-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.set-number {
   color: hsl(var(--muted-foreground));
+}
+
+.set-weight, .set-reps {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.set-value {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.set-unit {
+  color: hsl(var(--muted-foreground));
+}
+
+.set-total {
+  color: hsl(var(--muted-foreground));
+}
+
+.empty-state {
+  background-color: hsl(var(--card));
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border));
+  padding: 1.5rem;
+  text-align: center;
+  color: hsl(var(--muted-foreground));
+  position: sticky;
+  top: 1rem;
 }

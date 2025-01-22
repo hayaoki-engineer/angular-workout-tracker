@@ -12,10 +12,15 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./workout-list.component.css'],
 })
 export class WorkoutListComponent {
+  // 現在の日付 
   currentDate = new Date();
+  // 選択された日付
   selectedDate: string | null = null;
+  // カレンダーの日付
   calendarDays: Date[] = [];
+  // 展開されたエクササイズ
   expandedExercises = new Set<string>();
+  // ワークアウト
   workouts;
 
   constructor(public workoutService: WorkoutService) {
@@ -25,6 +30,7 @@ export class WorkoutListComponent {
     console.log('Initial workouts:', this.workouts());
   }
 
+  // カレンダーの日付を更新
   updateCalendarDays() {
     const year = this.currentDate.getFullYear();
     const month = this.currentDate.getMonth();
@@ -45,15 +51,18 @@ export class WorkoutListComponent {
     }
   }
 
+  // 月を変更
   changeMonth(delta: number) {
     this.currentDate.setMonth(this.currentDate.getMonth() + delta);
     this.updateCalendarDays();
   }
 
+  // 現在の月かどうか
   isCurrentMonth(date: Date): boolean {
     return date.getMonth() === this.currentDate.getMonth();
   }
 
+  // 今日かどうか
   isToday(date: Date): boolean {
     const today = new Date();
     return (
@@ -63,11 +72,13 @@ export class WorkoutListComponent {
     );
   }
 
+  // ワークアウトがあるかどうか
   hasWorkout(date: Date): boolean {
     const dateStr = this.workoutService.getDateString(date);
     return this.workouts()?.has(dateStr) ?? false;
   }
 
+  // ワークアウトの種目数を取得
   getWorkoutCount(date: Date): number {
     const dateStr = this.workoutService.getDateString(date);
     const workouts = this.workouts()?.get(dateStr);
@@ -78,6 +89,7 @@ export class WorkoutListComponent {
     );
   }
 
+  // 日付を選択
   selectDate(date: Date) {
     if (this.isCurrentMonth(date)) {
       const dateStr = this.workoutService.getDateString(date);
@@ -87,6 +99,7 @@ export class WorkoutListComponent {
     }
   }
 
+  // 選択されたワークアウトを取得
   getSelectedWorkouts(): Workout[] | undefined {
     if (!this.selectedDate) return undefined;
     const workouts = this.workouts()?.get(this.selectedDate);
@@ -94,6 +107,7 @@ export class WorkoutListComponent {
     return workouts;
   }
 
+  // ワークアウトを削除
   deleteWorkouts(date: string, event: Event) {
     event.stopPropagation();
     if (confirm('この日のワークアウトを削除してもよろしいですか？')) {
@@ -102,6 +116,7 @@ export class WorkoutListComponent {
     }
   }
 
+  // エクササイズを展開
   toggleExercise(workoutId: string, exerciseName: string) {
     const key = `${workoutId}-${exerciseName}`;
     if (this.expandedExercises.has(key)) {
@@ -111,6 +126,7 @@ export class WorkoutListComponent {
     }
   }
 
+  // エクササイズが展開されているかどうか
   isExerciseExpanded(workoutId: string, exerciseName: string): boolean {
     return this.expandedExercises.has(`${workoutId}-${exerciseName}`);
   }
