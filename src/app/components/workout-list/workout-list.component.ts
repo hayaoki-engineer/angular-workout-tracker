@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./workout-list.component.css'],
 })
 export class WorkoutListComponent {
+  
   // 現在の日付 
   currentDate = new Date();
   // 選択された日付
